@@ -1,4 +1,4 @@
-tbgrafos1
+tbgrafos
 =========
 
 Trabalho de Grafos implementacao algoritmos

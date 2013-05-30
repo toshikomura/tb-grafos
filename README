@@ -1,0 +1,50 @@
+Trabalho de Grafos 
+
+Alunos: Gustavo Toshi komura e Leonardo Boff
+Logins: gtk10 e lb09
+
+Observacao: Para evitar problemas de caracteres inimaginaveis na tela na hora da leitura deste documento, problemas enfrentados em em trabalhos anteriores, caracteres especiais nao foram inseridos.
+
+Em todos os teste realizados, nao foi detectado nenhum erro desde que a entrada seja a especificada no trabalho.
+Erros encontrados com a entrada um pouco modificada :
+- Caso a o quantidade de vertices seja maior que a informada no inicio da entrada, o programa pode resultar em segmentation faul.
+- Caso exista um (ou mais) espaco a mais apos os vertices que formam uma aresta, em alguns casos a leitura dos numeros pode ser errada, causando erros indesejados no programa "induzido", por exemplo sendo "_" espacos e dada a seguinte entrada:
+4
+1_2_
+2_3
+2_4
+2_3_4
+
+Percebe-se que na aresta 1_2_, existe um espaco a mais depois da aresta, inicialmente este erro ocorreu sem a nossa percepcao, mas apos alguns testes ele apareceu e foi tratado, no entanto talvez alguma sequecia de espaco pode acabar quebrando o programa.
+
+
+Modos de resolucao dos problemas: 
+
+Para solucionar os problemas que se seguem, foi utilizado uma estrutura de fila adjacente, onde no vetor principal e colocado os primeiros vertices lidos, e para cada vertice e colocado uma lista encadeada, onde em cada bloco e colocado um vertice que forma uma aresta com o vertice do vetor principal.
+Por exemplo:
+entrada:
+3
+1 2
+1 3
+
+vetor principal | lista encadeada 
+1			 | 2 3
+2			 | 1
+3			 | 1
+
+Para alguns dos problemas nem seria necessario fazer uso desta estrutura, no entanto a vantagem de utiliza-la e que os nomes dos vertices podem ser qualquer um sem que afete o funcionamento do programa, e tambem pode-se resolver todos estes problemas e mais alguns outros nao pedidos.
+
+- Vetor de graus: 
+			Para solucionar este problema, poderia ter sido utilizado um simples vetor indezado pela quantidade de vertices menos 1, devidamente zerado, e para cada vertice lido, seria acrescentado 1 na posicao do vertice. Apos ter todos os valores do graus, seria feita uma ordenacao crescente e o problema estaria solucionado.
+			 O modo de resolucao adotado foi sinilar, porem inicialmente os dados sao colocados na estrutura. O tempo de execucao e o custo de memoria sao bem mais altos, mas por outro lado a biblioteca vai ser reaproveitada para os outro problemas e ja que nao foi especificado se o programa deveria ter o melhor desempenho ou o melhor modo de implementacao, acabamos optando por reaproveitar codigo.
+			Outra observacao, se fosse pedido o grau de um determinado vertice com as suas aresta, nesta implementacao nao seria necessario fazer uma mudanca tao drastica no codigo.
+
+- Grafo completo:
+			Para o grafo completo, foi utilizar o vetor do problema de "Vetor de graus", e verificar se para todos os vertices o grau e "quantidade de vertices menos 1". Percebe-se que resolvendo o problema do "Vetor de graus" fica razoavelmente facil resolver o problema de "Grafo completo".
+
+- Grafo bipartido:
+			Para este problema nao foi encontrado nenhuma forma de reaproveitar o vetor do problema "Vetor de graus", no entanto a forma de resolucao foi parecida com a vista em sala de aula. Criou-se dois conjuntos para armazenar os vertices e chamando uma funcao de forma recursiva, escolhe-se um vertice para ser inserido em um dos conjuntos, antes de ser efetivado a insercao do vertice e checado, se ele ja existe no conjunto a ser inserido, pois se o vertice ja existir nao existe a necessidade de manter dois dele no mesmo conjunto, se ele ja existe no outro conjunto, pois se o vertice estiver no conjunto aonde ele nao vai ser inserido, podemos chegar o conclusao que o grafo nao e bipartido. Para o grafo ser bipartido, o algoritmo nunca entra na possiblidade de ter a insercao do vertice em um conjunto e ele ja existir no outro.
+
+- Grafo induzido:
+			Para solucionar este problema, foi feita uma leitura e gravacao atrasada por um loop, para se saber qual e o conjunto na ultima linha. Para cada leitura os valores sao guardados em um vetor auxiliar, e os dados deste vetor so sao inseridos na estrutura se o proximo loop acontecer, ao sair deste loop, sabe-se que os dados que estao no vetor sao do conjunto.
+			Depois de passar pela leitura, considerada a parte mais dificil deste problema, para cada aresta que foi lida e verificado se os dois vertices pertecem ao conjunto, se isso for verdadeiro a aresta e imprimida.
